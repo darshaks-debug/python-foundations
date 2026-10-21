@@ -1,0 +1,16 @@
+num1 = float(input("First Number: "))
+op = input("Operation (+ - * /): ")
+num2 = float(input("Second Number: "))
+
+if op == "+":
+    result = num1 + num2
+elif op == "-":
+    result = num1 - num2
+elif op == "*":
+    result = num1 * num2
+elif op == "/":
+    result = num1 / num2
+else:
+    result = "INVALID OPERATION"
+
+print(f"{num1} {op} {num2} = {result}")
