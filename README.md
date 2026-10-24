@@ -19,3 +19,9 @@
 - **Learned:** How to use dictionaries effectively, how to do `json.load()` and `json.dump()`, and how to use `continue` to skip bad inputs.
 - **Struggled with:** Indentation in VS Code when pasting code. (Lesson learned: type it out or use Format Document!).
 - **Tomorrow:** FastAPI — building my first web API!
+
+## Day 4
+- **Built:** A fully functional REST API using FastAPI. Includes GET, POST, and dynamic total calculation.
+- **Learned:** How to use Uvicorn, how Pydantic automatically validates data, how path/query parameters work, and how to test APIs via Swagger UI (`/docs`).
+- **Struggled with:** The 500 Internal Server Error caused by old JSON data. Learned that deleting the corrupted file and using `.dict()` fixed it.
+- **Tomorrow:** Connecting a frontend to the backend (Streamlit) or diving deeper into FastAPI.
