@@ -25,3 +25,9 @@
 - **Learned:** How to use Uvicorn, how Pydantic automatically validates data, how path/query parameters work, and how to test APIs via Swagger UI (`/docs`).
 - **Struggled with:** The 500 Internal Server Error caused by old JSON data. Learned that deleting the corrupted file and using `.dict()` fixed it.
 - **Tomorrow:** Connecting a frontend to the backend (Streamlit) or diving deeper into FastAPI.
+
+## Day 5
+- **Built:** A full-stack Expense Tracker with a Streamlit frontend connected to a FastAPI backend.
+- **Learned:** How to send HTTP requests using the `requests` library, how to build interactive forms in Streamlit, and how to display data tables and charts.
+- **Struggled with:** Forgetting parentheses on `st.divider()`.
+- **Tomorrow:** Connecting a real database (SQLite) or moving on to AI/LLM integration.
