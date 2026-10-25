@@ -31,3 +31,9 @@
 - **Learned:** How to send HTTP requests using the `requests` library, how to build interactive forms in Streamlit, and how to display data tables and charts.
 - **Struggled with:** Forgetting parentheses on `st.divider()`.
 - **Tomorrow:** Connecting a real database (SQLite) or moving on to AI/LLM integration.
+
+## Day 6
+- **Built:** Replaced the JSON file with a SQLite database using SQLAlchemy.
+- **Learned:** How ORMs (Object-Relational Mappers) work, how to define database tables using Python classes, and how to manage database sessions in FastAPI using `Depends`.
+- **Struggled with:** Accidentally pasting the backend code into `frontend.py` and deleting the old JSON file.
+- **Tomorrow:** Completing CRUD operations (adding a Delete button) and maybe adding some AI magic.
