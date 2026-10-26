@@ -49,8 +49,21 @@ if response.status_code == 200 and total_response.status_code == 200:
     
     #Display list of expenses:
     if expenses_data:
-        st.dataframe(expenses_data, use_container_width=True)
-        st.bar_chart(expenses_data, x="description", y="amount")
+        for exp in expenses_data:
+            col1, col2, col3 = st.columns([4, 1, 1])
+            
+            with col1:
+                st.write(f"**{exp['description']}** - ₹{exp['amount']}")
+            
+            with col2:
+                # 1. Extract the ID into a variable first
+                expense_id = exp['id']
+                
+                # 2. Use the variable inside the f-string
+                if st.button("Delete", key=f"del_{expense_id}"):
+                    # 3. Use the variable here too
+                    requests.delete(f"{API_URL}/expenses/{expense_id}")
+                    st.rerun()
     else:
         st.info("No expenses added yet.")
 

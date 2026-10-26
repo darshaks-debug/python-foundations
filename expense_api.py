@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
-from typing import List
+from typing import List, Optional
 
 # --- 1. DATABASE SETUP ---
 # This creates a file called "expenses.db"
@@ -26,6 +26,7 @@ Base.metadata.create_all(bind=engine)
 
 # --- 3. THE PYDANTIC MODEL (For API validation) ---
 class Expense(BaseModel):
+    id: Optional[int] = None
     amount: float
     description: str
 
@@ -69,3 +70,18 @@ def get_total(db: Session = Depends(get_db)):
     expenses = db.query(ExpenseDB).all()
     total = sum(exp.amount for exp in expenses)
     return {"total_expenses": total}
+
+@app.delete("/expenses/{expense_id}")
+def delete_expense(expense_id: int, db: Session = Depends(get_db)):
+    #1. Find the Expense by ID
+    expense = db.query(ExpenseDB).filter(ExpenseDB.id == expense_id).first()
+    
+    #2. If not found, raise a 404 error
+    if expense is None:
+        raise HTTPException(status_code=404, detail="Expense not found")
+    
+    #3. Delete it and Save the database
+    db.delete(expense)
+    db.commit()
+    
+    return {"message": f"Expense {expense_id} deleted successfully."}
