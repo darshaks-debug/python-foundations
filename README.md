@@ -37,3 +37,9 @@
 - **Learned:** How ORMs (Object-Relational Mappers) work, how to define database tables using Python classes, and how to manage database sessions in FastAPI using `Depends`.
 - **Struggled with:** Accidentally pasting the backend code into `frontend.py` and deleting the old JSON file.
 - **Tomorrow:** Completing CRUD operations (adding a Delete button) and maybe adding some AI magic.
+
+## Day 7
+- **Built:** Added full Delete functionality (CRUD) to the API and the Streamlit UI.
+- **Learned:** How to use `db.delete()` in SQLAlchemy, how to pass path parameters (`/expenses/{id}`), how to handle HTTP 404 exceptions, and how to build dynamic UI rows with buttons in Streamlit.
+- **Struggled with:** Nested quotes in f-strings causing a SyntaxError, and fixing the `KeyError` by updating the Pydantic model to include `id`.
+- **Tomorrow:** We are officially one week in! Time to bring in the AI.
