@@ -43,3 +43,9 @@
 - **Learned:** How to use `db.delete()` in SQLAlchemy, how to pass path parameters (`/expenses/{id}`), how to handle HTTP 404 exceptions, and how to build dynamic UI rows with buttons in Streamlit.
 - **Struggled with:** Nested quotes in f-strings causing a SyntaxError, and fixing the `KeyError` by updating the Pydantic model to include `id`.
 - **Tomorrow:** We are officially one week in! Time to bring in the AI.
+
+## Day 8
+- **Built:** Integrated Google Gemini API to analyze expenses and provide financial advice.
+- **Learned:** How to use `python-dotenv` to secure API keys, how to format prompts, and how to handle rate limits (429 errors) and model availability (404 errors).
+- **Struggled with:** Finding the correct model name (`gemini-2.5-flash`) and dealing with the free-tier rate limits.
+- **Tomorrow:** Advanced Prompt Engineering (getting the AI to return structured JSON data).
