@@ -3,6 +3,13 @@ from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from typing import List, Optional
+import os
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+#Load the API Key from the .env file
+load_dotenv()
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # --- 1. DATABASE SETUP ---
 # This creates a file called "expenses.db"
@@ -83,5 +90,32 @@ def delete_expense(expense_id: int, db: Session = Depends(get_db)):
     #3. Delete it and Save the database
     db.delete(expense)
     db.commit()
+    
+@app.get("/expenses/analyze")
+def analyze_expenses(db: Session = Depends(get_db)):
+    expenses = db.query(ExpenseDB).all()
+    
+    if not expenses:
+        return {"analysis": "You have no expenses to analyze."}
+        
+    expense_text = "\n".join([f"- {exp.description}: ₹{exp.amount}" for exp in expenses])
+    
+    prompt = f"""
+    You are a helpful financial advisor. Here is a list of my recent expenses:
+    {expense_text}
+    
+    Please provide a short, 3-sentence analysis of my spending. 
+    Give me one specific tip on how to save money based on these expenses.
+    """
+    
+    try:
+        # Use 'gemini-1.5-flash-latest' instead of just 'gemini-1.5-flash'
+        model = genai.GenerativeModel('gemini-3.5-flash')
+        response = model.generate_content(prompt)
+        return {"analysis": response.text}
+    except Exception as e:
+        # Instantly return the exact error so Streamlit can display it
+        print(f"BACKEND ERROR: {e}")
+        return {"error": str(e)}
     
     return {"message": f"Expense {expense_id} deleted successfully."}

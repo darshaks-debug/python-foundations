@@ -39,13 +39,28 @@ st.subheader("Your Expenses")
 response = requests.get(f"{API_URL}/expenses")
 total_response = requests.get(f"{API_URL}/expenses/total")
 
-#Check if requess were successful
+#Check if requests were successful
 if response.status_code == 200 and total_response.status_code == 200:
     expenses_data = response.json()
     total_data = total_response.json()
     
     #Display the total in a metric box
     st.metric(label="Total Spend", value=f"₹{total_data['total_expenses']}")
+    
+    # AI Analysis Button
+    if st.button("🤖 Analyze My Spending with AI"):
+        with st.spinner("AI is thinking..."):
+            ai_response = requests.get(f"{API_URL}/expenses/analyze", timeout=20)
+            
+            if ai_response.status_code == 200:
+                response_data = ai_response.json()
+                # Check if the AI worked or if the backend returned an error
+                if "analysis" in response_data:
+                    st.info(response_data["analysis"])
+                else:
+                    st.error(f"Backend Error: {response_data}")
+            else:
+                st.error("Failed to connect to the backend.")
     
     #Display list of expenses:
     if expenses_data:
