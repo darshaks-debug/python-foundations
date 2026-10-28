@@ -49,3 +49,9 @@
 - **Learned:** How to use `python-dotenv` to secure API keys, how to format prompts, and how to handle rate limits (429 errors) and model availability (404 errors).
 - **Struggled with:** Finding the correct model name (`gemini-2.5-flash`) and dealing with the free-tier rate limits.
 - **Tomorrow:** Advanced Prompt Engineering (getting the AI to return structured JSON data).
+
+## Day 9
+- **Built:** Integrated AI to automatically categorize expenses into strict categories (Food, Transport, etc.) before saving to the database.
+- **Learned:** How to use LLMs for structured data extraction rather than just conversational text. Also learned how to handle API errors (like rate limits) with fallback default values.
+- **Struggled with:** The AI returning "Other" initially due to a bad model name and timeout errors. Fixed it by using the correct `gemini-3.8-flash` model and resetting the database.
+- **Tomorrow:** Embeddings & Vector Databases (The foundation of RAG).
