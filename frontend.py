@@ -68,7 +68,7 @@ if response.status_code == 200 and total_response.status_code == 200:
             col1, col2, col3 = st.columns([4, 1, 1])
             
             with col1:
-                st.write(f"**{exp['description']}** - ₹{exp['amount']}")
+                st.write(f"**{exp['description']}** - ₹{exp['amount']} *(Category: {exp.get('category', 'N/A')})*")
             
             with col2:
                 # 1. Extract the ID into a variable first
