@@ -55,3 +55,9 @@
 - **Learned:** How to use LLMs for structured data extraction rather than just conversational text. Also learned how to handle API errors (like rate limits) with fallback default values.
 - **Struggled with:** The AI returning "Other" initially due to a bad model name and timeout errors. Fixed it by using the correct `gemini-3.8-flash` model and resetting the database.
 - **Tomorrow:** Embeddings & Vector Databases (The foundation of RAG).
+
+## Day 10
+- **Built:** A local semantic search engine using `sentence-transformers` and `ChromaDB`.
+- **Learned:** How embeddings turn text into mathematical vectors, and how vector databases find items based on *meaning* rather than exact keyword matches.
+- **Struggled with:** A small `AttributeError` because `.tolist()` was called on a list that was already a Python list. Fixed by removing `.tolist()`.
+- **Tomorrow:** Building a RAG (Retrieval-Augmented Generation) pipeline from scratch.
