@@ -61,3 +61,9 @@
 - **Learned:** How embeddings turn text into mathematical vectors, and how vector databases find items based on *meaning* rather than exact keyword matches.
 - **Struggled with:** A small `AttributeError` because `.tolist()` was called on a list that was already a Python list. Fixed by removing `.tolist()`.
 - **Tomorrow:** Building a RAG (Retrieval-Augmented Generation) pipeline from scratch.
+
+## Day 11
+- **Built:** A complete RAG (Retrieval-Augmented Generation) pipeline from scratch. Reads a PDF, chunks it, embeds the chunks, stores them in ChromaDB, and uses Gemini to answer questions based *only* on the document.
+- **Learned:** How to handle PDF extraction, the importance of chunking, and how to implement exponential backoff (retry logic) to handle API rate limits and server errors gracefully.
+- **Struggled with:** API 503 errors and hallucinated model names. The retry logic and the `check_models.py` script solved it.
+- **Tomorrow:** Building a beautiful chat UI for this RAG pipeline using Streamlit.
