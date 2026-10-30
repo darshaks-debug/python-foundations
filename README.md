@@ -67,3 +67,9 @@
 - **Learned:** How to handle PDF extraction, the importance of chunking, and how to implement exponential backoff (retry logic) to handle API rate limits and server errors gracefully.
 - **Struggled with:** API 503 errors and hallucinated model names. The retry logic and the `check_models.py` script solved it.
 - **Tomorrow:** Building a beautiful chat UI for this RAG pipeline using Streamlit.
+
+## Day 12
+- **Built:** A ChatGPT-style web interface for the RAG pipeline using Streamlit.
+- **Learned:** How to manage state across reruns using `st.session_state`, how to handle file uploads, and how to use `st.chat_input` and `st.chat_message`.
+- **Struggled with:** A ChromaDB `where={}` error when trying to clear the database. Fixed it by deleting and recreating the collection entirely.
+- **Tomorrow:** Building Project 2 (AI Resume-to-JD Analyzer).
