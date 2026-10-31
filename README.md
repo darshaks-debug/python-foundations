@@ -73,3 +73,9 @@
 - **Learned:** How to manage state across reruns using `st.session_state`, how to handle file uploads, and how to use `st.chat_input` and `st.chat_message`.
 - **Struggled with:** A ChromaDB `where={}` error when trying to clear the database. Fixed it by deleting and recreating the collection entirely.
 - **Tomorrow:** Building Project 2 (AI Resume-to-JD Analyzer).
+
+## Day 13
+- **Built:** Project 2 - An AI Resume Analyzer that compares a resume PDF against a Job Description.
+- **Learned:** How to force an LLM to return strict JSON data using prompt engineering, how to parse that JSON in Python (`json.loads`), and how to dynamically render results with color-coded UI components in Streamlit.
+- **Struggled with:** Handling empty PDFs (scanned images) by adding a text-extraction length check before calling the AI.
+- **Tomorrow:** Deployment Day (Getting these apps off localhost!).
