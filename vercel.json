@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "expense_api.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "expense_api.py"
+    }
+  ]
+}
