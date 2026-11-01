@@ -132,3 +132,6 @@ def analyze_expenses(db: Session = Depends(get_db)):
     except Exception as e:
         print(f"BACKEND ERROR: {e}")
         return {"error": str(e)}
+@app.get("/")
+def read_root():
+    return {"message": "Expense Tracker API is live on Vercel!"}
