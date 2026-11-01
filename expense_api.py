@@ -49,10 +49,9 @@ def get_db():
 
 # --- 5. FASTAPI APP ---
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], #In production, you'd restrict this
+    allow_origins=["*"], # Allows Streamlit Cloud to connect
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
