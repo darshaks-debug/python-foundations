@@ -6,6 +6,7 @@ from typing import List, Optional
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load the API Key from the .env file
 load_dotenv()
@@ -48,6 +49,14 @@ def get_db():
 
 # --- 5. FASTAPI APP ---
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], #In production, you'd restrict this
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/expenses", response_model=List[Expense])
 def list_expenses(db: Session = Depends(get_db)):
