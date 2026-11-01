@@ -79,3 +79,9 @@
 - **Learned:** How to force an LLM to return strict JSON data using prompt engineering, how to parse that JSON in Python (`json.loads`), and how to dynamically render results with color-coded UI components in Streamlit.
 - **Struggled with:** Handling empty PDFs (scanned images) by adding a text-extraction length check before calling the AI.
 - **Tomorrow:** Deployment Day (Getting these apps off localhost!).
+
+## Day 14
+- **Built:** Deployed the FastAPI backend to Vercel and the Streamlit frontend to Streamlit Community Cloud.
+- **Learned:** How to handle serverless read-only filesystems (using `/tmp` for SQLite), how to configure CORS for production, how to use `.vercelignore` and `requirements-vercel.txt` to keep deployment bundles small, and how to manage environment variables in the cloud.
+- **Struggled with:** Vercel's 500 MB limit and SQLite's read-only error. Fixed them by splitting the requirements file and pointing the DB to `/tmp`.
+- **Tomorrow:** Dockerizing the backend & updating the portfolio.
