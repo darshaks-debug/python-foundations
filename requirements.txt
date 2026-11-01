@@ -4,6 +4,3 @@ sqlalchemy
 pydantic
 python-dotenv
 google-generativeai
-streamlit
-requests
-pypdf
