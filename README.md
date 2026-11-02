@@ -85,3 +85,9 @@
 - **Learned:** How to handle serverless read-only filesystems (using `/tmp` for SQLite), how to configure CORS for production, how to use `.vercelignore` and `requirements-vercel.txt` to keep deployment bundles small, and how to manage environment variables in the cloud.
 - **Struggled with:** Vercel's 500 MB limit and SQLite's read-only error. Fixed them by splitting the requirements file and pointing the DB to `/tmp`.
 - **Tomorrow:** Dockerizing the backend & updating the portfolio.
+
+## Day 15
+- **Built:** Created a `Dockerfile` to containerize the FastAPI backend.
+- **Learned:** How to write a Dockerfile, build an image (`docker build`), and run a container (`docker run`). Also learned how to use Colima as a free Docker Desktop alternative on Mac.
+- **Struggled with:** Fixing the `requirements-vercel.txt` path and ensuring Colima was running properly.
+- **Tomorrow:** Building the Portfolio Website to showcase these live links.
