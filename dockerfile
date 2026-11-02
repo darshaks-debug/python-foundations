@@ -1,18 +1,20 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# 1. Use an official Python runtime as a parent image
+FROM python:3.11-slim
 
-# Set the working directory in the container
+# 2. Set the working directory inside the container
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# 3. Copy only the requirements file first (this makes rebuilding faster)
+COPY requirements-vercel.txt requirements.txt
 
-# Install any needed packages specified in requirements.txt
+# 4. Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 7860 available to the world outside this container
-# (Hugging Face Spaces uses port 7860 by default)
-EXPOSE 7860
+# 5. Copy the rest of your backend code into the container
+COPY expense_api.py .
 
-# Run uvicorn when the container launches
-CMD ["uvicorn", "expense_api:app", "--host", "0.0.0.0", "--port", "7860"]
+# 6. Expose the port the app runs on
+EXPOSE 8000
+
+# 7. Command to run the application
+CMD ["uvicorn", "expense_api:app", "--host", "0.0.0.0", "--port", "8000"]
