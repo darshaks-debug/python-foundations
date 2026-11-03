@@ -90,4 +90,4 @@ st.write("---")
 # 6. Contact Section
 st.subheader("📫 Let's Connect")
 st.write("I am actively looking for entry-level AI/Backend Developer roles. Feel free to reach out!")
-st.markdown("[LinkedIn](https://linkedin.com/in/your-profile) | [GitHub](https://github.com/darshaks-debug) | [Email](mailto:your-email@example.com)")
+st.markdown("[LinkedIn](https://www.linkedin.com/in/s-darshak-807079449/) | [GitHub](https://github.com/darshaks-debug) | [Email](mailto:sdarshak70@gmail.com)")
