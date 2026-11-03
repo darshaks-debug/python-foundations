@@ -91,3 +91,9 @@
 - **Learned:** How to write a Dockerfile, build an image (`docker build`), and run a container (`docker run`). Also learned how to use Colima as a free Docker Desktop alternative on Mac.
 - **Struggled with:** Fixing the `requirements-vercel.txt` path and ensuring Colima was running properly.
 - **Tomorrow:** Building the Portfolio Website to showcase these live links.
+
+## Day 16
+- **Built:** A live, professional portfolio website using Streamlit and custom CSS.
+- **Learned:** How to manage multiple deployments from a single GitHub repository, how to style Streamlit apps with HTML/CSS, and how to handle conflicting dependency requirements (google-genai vs google-generativeai).
+- **Struggled with:** Streamlit Cloud's caching of old requirements. Fixed it by forcing redeployments and updating the requirements file.
+- **Tomorrow:** Cleaning up the GitHub repository and writing professional READMEs for the projects.
