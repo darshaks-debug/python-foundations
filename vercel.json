@@ -1,17 +1,14 @@
 {
-  "builds": [
-    {
-      "src": "expense_api.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+  "installCommand": "uv pip install -r requirements-vercel.txt --system",
+  "functions": {
+    "expense_api.py": {
+      "excludeFiles": "{chroma_db/**,__pycache__/**,*.pdf,*.db,main.py,frontend.py,rag_app.py,resume_analyzer.py,portfolio.py}"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "expense_api.py"
+      "source": "/(.*)",
+      "destination": "/expense_api.py"
     }
   ]
 }
