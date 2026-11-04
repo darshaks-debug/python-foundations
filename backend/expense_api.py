@@ -76,7 +76,7 @@ def add_expense(new_expense: Expense, db: Session = Depends(get_db)):
     
     try:
         # FIXED MODEL NAME HERE
-        model = genai.GenerativeModel('gemini-3.8-flash') 
+        model = genai.GenerativeModel('gemini-3.5-flash') 
         response = model.generate_content(prompt)
         if response.text:
             assigned_category = response.text.strip().capitalize() 
@@ -125,7 +125,7 @@ def analyze_expenses(db: Session = Depends(get_db)):
     
     try:
         # FIXED MODEL NAME HERE
-        model = genai.GenerativeModel('gemini-3.8-flash')
+        model = genai.GenerativeModel('gemini-3.5-flash')
         response = model.generate_content(prompt)
         return {"analysis": response.text}
     except Exception as e:
