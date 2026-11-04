@@ -3,3 +3,4 @@ pydantic
 sqlalchemy
 google-generativeai
 python-dotenv
+uvicorn[standard]
