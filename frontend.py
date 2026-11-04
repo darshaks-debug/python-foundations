@@ -23,7 +23,7 @@ with st.form("add_expense_form"):
         else:
             #Send a POST request to the FastAPI backend
             new_expense = {"description": description, "amount": amount}
-            response = requests.post(f"{API_URL}/expenses", json=new_expense)
+            response = requests.post(f"{API_URL}/expenses", json=new_expense, timeout=10)
             
             if response.status_code == 200:
                 st.success("Expense Added Successfully!")
@@ -36,8 +36,8 @@ st.divider()
 st.subheader("Your Expenses")
 
 #Send GET request to fetch the data
-response = requests.get(f"{API_URL}/expenses")
-total_response = requests.get(f"{API_URL}/expenses/total")
+response = requests.get(f"{API_URL}/expenses", timeout=10)
+total_response = requests.get(f"{API_URL}/expenses/total", timeout=10)
 
 #Check if requests were successful
 if response.status_code == 200 and total_response.status_code == 200:
@@ -77,7 +77,7 @@ if response.status_code == 200 and total_response.status_code == 200:
                 # 2. Use the variable inside the f-string
                 if st.button("Delete", key=f"del_{expense_id}"):
                     # 3. Use the variable here too
-                    requests.delete(f"{API_URL}/expenses/{expense_id}")
+                    requests.delete(f"{API_URL}/expenses/{expense_id}", timeout=10)
                     st.rerun()
     else:
         st.info("No expenses added yet.")

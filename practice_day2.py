@@ -12,14 +12,14 @@ print(is_even(4))  # Output: True
 print(is_even(7))  # Output: False
 
 #maxof_three function to find the maximum of three numbers
-def maxof_three(a,b,c):
+def max_of_three(a,b,c):
     if a >= b and a >= c:
         return a
     elif b >= a and b>= c:
         return b
     else:
         return c
-print(maxof_three(30, 18, 26)) # Output: 30
+print(max_of_three(30, 18, 26)) # Output: 30
 
 #FizzBuzz program to print numbers from 1 to 100 with Fizz for multiples of 3, Buzz for multiples of 5, and FizzBuzz for multiples of both
 for i in range(1, 101):

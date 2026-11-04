@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from rag_pipeline import PDFRAGAssistant
+import uuid import tempfile
 
 # 1. Page Configuration (MUST BE THE FIRST ST COMMAND)
 st.set_page_config(page_title="Chat with your PDF", page_icon="📄", layout="wide")
@@ -14,6 +15,8 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "pdf_uploaded" not in st.session_state:
     st.session_state.pdf_uploaded = False
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())[:8]
 
 # 3. Sidebar: File Uploader
 with st.sidebar:

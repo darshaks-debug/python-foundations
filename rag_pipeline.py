@@ -1,4 +1,6 @@
 import os
+import sys
+import uuid
 import time
 from pathlib import Path
 from typing import List, Dict, Any
@@ -179,16 +181,19 @@ class PDFRAGAssistant:
 
 def main():
     pdf_file = "document.pdf"
+    #Check if user typed "python rag_pipeline.py --reset" to reset the database
+    reset_db = "--reset" in sys.argv
 
     try:
-        assistant = PDFRAGAssistant()
+        db_path = f"./chroma_db_{str(uuid.uuid4())[:8]}" if reset_db else "./chroma_db"
+        assistant = PDFRAGAssistant(db_path=db_path)
 
-        if assistant.collection.count() == 0:
+        if reset_db or assistant.collection.count() == 0:
+            print("⚡ Resetting / Indexing the PDF...")
             assistant.index_pdf(pdf_file)
         else:
-            print(
-                f"⚡ Loaded {assistant.collection.count()} existing chunks from disk.\n"
-            )
+            print(f"⚡ Loaded {assistant.collection.count()} existing chunks from disk.\n")
+            print("TIP: To reset the database and re-index the PDF, run: python rag_pipeline.py --reset\n")
 
         while True:
             question = input("Ask a question about the PDF (or type 'quit'): ").strip()
