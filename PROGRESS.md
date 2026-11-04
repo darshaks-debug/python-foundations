@@ -98,7 +98,7 @@
 - **Struggled with:** Streamlit Cloud's caching of old requirements. Fixed it by forcing redeployments and updating the requirements file.
 - **Tomorrow:** Cleaning up the GitHub repository and writing professional READMEs for the projects.
 
-## Day 16 & 17: Cloud Deployment & Professional Polish
+### Day 16 & 17: Cloud Deployment & Professional Polish
 
 ### The Vercel Saga
 - **Built:** Deployed the FastAPI backend to Vercel.
@@ -111,5 +111,5 @@
 - **Struggled with:** Correcting the `ModuleNotFoundError: No module named 'api'` by properly structuring the repository.
 
 ### The Makeover
-- **Built:** Restructured the repository into a monorepo (`api/` for backend, `streamlit_apps/` for frontend) to separate heavy AI dependencies from the lightweight backend. Wrote a professional `README.md` with live links and architecture details.
-- **Tomorrow:** LeetCode, System Design, and starting the job application blitz.
+- **Built:** Restructured the repository into a monorepo (`api/` for backend, `streamlit_apps/` for frontend) to separate heavy AI dependencies from the lightweight backend. Wrote a professional `README.md` with live links and architecture details. Fixed light-mode text visibility by forcing a dark theme.
+- **Tomorrow:** Database Upgrade (SQLite to PostgreSQL) or Advanced RAG features.
