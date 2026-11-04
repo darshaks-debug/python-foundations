@@ -98,18 +98,11 @@
 - **Struggled with:** Streamlit Cloud's caching of old requirements. Fixed it by forcing redeployments and updating the requirements file.
 - **Tomorrow:** Cleaning up the GitHub repository and writing professional READMEs for the projects.
 
-### Day 17: Cloud Deployment & Professional Polish
+---
 
-### The Vercel Saga
-- **Built:** Deployed the FastAPI backend to Vercel.
-- **Learned:** Discovered that Vercel's serverless platform has a 500MB bundle limit and a read-only filesystem. Learned how to use `/tmp` for SQLite and `.vercelignore` to shrink bundles.
-- **Struggled with:** A persistent "Phantom 404" routing error where Vercel would only serve the root endpoint, ignoring all `/expenses` routes.
+### Day 17: Cloud Deployment, Monorepo Infrastructure & Professional Polish
 
-### The Railway Migration
-- **Built:** Migrated the FastAPI backend to Railway (a persistent server host). Successfully connected the Streamlit frontend to the live Railway URL.
-- **Learned:** How to debug Docker build checksums, how to fix `uvicorn: command not found`, and how to properly set environment variables (`GEMINI_API_KEY`) in a cloud dashboard.
-- **Struggled with:** Correcting the `ModuleNotFoundError: No module named 'api'` by properly structuring the repository.
-
-### The Makeover
-- **Built:** Restructured the repository into a monorepo (`api/` for backend, `streamlit_apps/` for frontend) to separate heavy AI dependencies from the lightweight backend. Wrote a professional `README.md` with live links and architecture details. Fixed light-mode text visibility by forcing a dark theme.
-- **Tomorrow:** Database Upgrade (SQLite to PostgreSQL) or Advanced RAG features.
+- **Built:** Successfully deployed the FastAPI backend to the cloud (migrated from Vercel to Railway). Restructured the repository into a monorepo (`api/` for the backend, `streamlit_apps/` for the frontend) to separate heavy AI dependencies from the lightweight backend. Wrote a professional `README.md` with live links and architecture details.
+- **Learned:** Discovered Vercel's serverless limitations (500MB bundle limit, read-only filesystem). Learned how to configure Railway's environment variables, start commands, and root directories. Learned how to force a dark theme in Streamlit using `config.toml` and resolved a Git merge conflict.
+- **Struggled with:** Vercel's "Phantom 404" routing errors, Railway's Docker build checksums, `uvicorn: command not found`, and fixing the `ModuleNotFoundError` by properly setting the root directory.
+- **Tomorrow:** Upgrading the database from SQLite to PostgreSQL.
