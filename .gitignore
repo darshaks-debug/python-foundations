@@ -1,1 +1,6 @@
+__pycache__/
 .env
+*.pdf
+chroma_db/
+*.db
+.DS_Store
