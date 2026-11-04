@@ -6,7 +6,7 @@ st.set_page_config(page_title="Expense Tracker", page_icon="💰")
 st.title("💰 My Expense Tracker")
 
 #The URL where the FastAPI backend is running
-API_URL = "https://python-foundations-rho.vercel.app"
+API_URL = "https://python-foundations-rho.vercel.app/api"
 
 #Create a from for adding expenses:
 st.subheader("Add a New Expense")
