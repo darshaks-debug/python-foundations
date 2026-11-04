@@ -1,14 +1,14 @@
 {
-  "installCommand": "uv pip install -r requirements-vercel.txt --system",
-  "functions": {
-    "expense_api.py": {
-      "excludeFiles": "{chroma_db/**,__pycache__/**,*.pdf,*.db,main.py,frontend.py,rag_app.py,resume_analyzer.py,portfolio.py}"
-    }
-  },
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/expense_api.py"
+      "src": "expense_api.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "expense_api.py"
     }
   ]
 }

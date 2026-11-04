@@ -1,16 +1,4 @@
-.venv/
-venv/
-__pycache__/
-.env
 chroma_db/
+__pycache__/
 *.pdf
 *.db
-*.json
-!vercel.json
-frontend.py
-rag_app.py
-rag_pipeline.py
-resume_analyzer.py
-portfolio.py
-vector_search.py
-practice_*.py
