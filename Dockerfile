@@ -5,7 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # 3. Copy only the requirements file first (this makes rebuilding faster)
-COPY requirements-vercel.txt requirements.txt
+COPY api/requirements.txt .
 
 # 4. Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
