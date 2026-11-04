@@ -1,6 +1,8 @@
-.env
-chroma_db
-__pycache__
-*.pdf
-expenses.db
+chroma_db/
+document.pdf
 uploaded_document.pdf
+*.pdf
+rag_app.py
+resume_analyzer.py
+portfolio.py
+frontend.py
