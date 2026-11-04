@@ -98,7 +98,7 @@
 - **Struggled with:** Streamlit Cloud's caching of old requirements. Fixed it by forcing redeployments and updating the requirements file.
 - **Tomorrow:** Cleaning up the GitHub repository and writing professional READMEs for the projects.
 
-### Day 16 & 17: Cloud Deployment & Professional Polish
+### Day 17: Cloud Deployment & Professional Polish
 
 ### The Vercel Saga
 - **Built:** Deployed the FastAPI backend to Vercel.
