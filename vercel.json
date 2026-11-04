@@ -1,13 +1,9 @@
 {
-  "builds": [
-    {
-      "src": "expense_api.py",
-      "use": "@vercel/python",
-      "config": {
-        "pip": "requirements-vercel.txt"
-      }
+  "functions": {
+    "expense_api.py": {
+      "excludeFiles": "{chroma_db/**,__pycache__/**,*.pdf,*.db,frontend.py,rag_app.py,resume_analyzer.py,portfolio.py}"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/(.*)",
