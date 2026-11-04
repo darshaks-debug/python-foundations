@@ -1,8 +1,5 @@
-streamlit
-requests
-google-genai
+fastapi
+pydantic
+sqlalchemy
 google-generativeai
 python-dotenv
-pypdf
-chromadb
-sentence-transformers
