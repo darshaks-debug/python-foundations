@@ -60,8 +60,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 # Replace the URLs below with your actual live links!
-st.link_button("🔴 Live Demo", "https://python-foundations-4kev8dkppbgp28dhoqujss.streamlit.app")
-st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations/blob/main/resume_analyzer.py")
+st.link_button("🔴 Live Demo", "https://darshak-resume-analyzer.streamlit.app")
+st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations/blob/main/streamlit_apps/resume_analyzer.py")
 
 # Project 2: Chat with your PDF (RAG)
 st.markdown("""
@@ -71,8 +71,8 @@ st.markdown("""
     <p><b>Stack:</b> Streamlit, ChromaDB, SentenceTransformers, Gemini</p>
 </div>
 """, unsafe_allow_html=True)
-st.link_button("🔴 Live Demo", "https://python-foundations-kps7bv6epcpdzpnjntzcpn.streamlit.app")
-st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations/blob/main/rag_app.py")
+st.link_button("🔴 Live Demo", "https://darshak-rag-pdf.streamlit.app")
+st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations/blob/main/streamlit_apps/rag_app.py")
 
 # Project 3: AI Expense Tracker
 st.markdown("""
@@ -82,8 +82,8 @@ st.markdown("""
     <p><b>Stack:</b> FastAPI, SQLAlchemy, Streamlit, Docker, Vercel</p>
 </div>
 """, unsafe_allow_html=True)
-st.link_button("🔴 Live Demo", "https://python-foundations-abwdzzq9nbxbjyvudpdp6s.streamlit.app")
-st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations")
+st.link_button("🔴 Live Demo", "https://darshak-expense-tracker.streamlit.app")
+st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations/blob/main/streamlit_apps/expense_frontend.py")
 
 st.write("---")
 

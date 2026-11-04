@@ -8,18 +8,18 @@ This repository contains the source code for my deployed applications, including
 
 ### 1. 💰 AI Expense Tracker
 A full-stack application that tracks expenses and uses Gemini AI to automatically categorize them.
-*   **Live Demo:** [Streamlit App](https://python-foundations-abwdzzq9nbxbjyvudpdp6s.streamlit.app)
+*   **Live Demo:** [Streamlit App](https://darshak-expense-tracker.streamlit.app)
 *   **Backend API:** [FastAPI Docs](https://python-foundations-production.up.railway.app/docs)
 *   **Tech Stack:** FastAPI, SQLAlchemy, SQLite, Streamlit, Google Gemini, Railway.
 
 ### 2. 📄 Chat with your PDF (RAG)
 A Retrieval-Augmented Generation (RAG) application. Upload any PDF and chat with it. The app uses custom chunking, overlapping text, and vector embeddings to answer questions with page citations.
-*   **Live Demo:** [Streamlit App](https://python-foundations-kps7bv6epcpdzpnjntzcpn.streamlit.app)
+*   **Live Demo:** [Streamlit App](https://darshak-rag-pdf.streamlit.app)
 *   **Tech Stack:** Streamlit, ChromaDB, SentenceTransformers, PyPDF, Google Gemini.
 
 ### 3. 🤖 AI Resume Analyzer
 A tool that compares a resume against a job description, providing a match score, missing skills, and actionable resume tips.
-*   **Live Demo:** [Streamlit App](https://python-foundations-4kev8dkppbgp28dhoqujss.streamlit.app)
+*   **Live Demo:** [Streamlit App](https://darshak-resume-analyzer.streamlit.app)
 *   **Tech Stack:** Streamlit, PyPDF, Google Gemini (Structured JSON Output).
 
 ## 🛠️ Technical Skills
@@ -35,7 +35,7 @@ A tool that compares a resume against a job description, providing a match score
 
 ## 📫 Connect with Me
 *   [LinkedIn](https://www.linkedin.com/in/s-darshak-807079449/)
-*   [Portfolio Website](https://python-foundations-i4zwqildwge9v6aacuj6tl.streamlit.app)
+*   [Portfolio Website](https://darshak-portfolio.streamlit.app/)
 
 ---
 
