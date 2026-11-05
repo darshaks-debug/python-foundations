@@ -106,3 +106,9 @@
 - **Learned:** Discovered Vercel's serverless limitations (500MB bundle limit, read-only filesystem). Learned how to configure Railway's environment variables, start commands, and root directories. Learned how to force a dark theme in Streamlit using `config.toml` and resolved a Git merge conflict.
 - **Struggled with:** Vercel's "Phantom 404" routing errors, Railway's Docker build checksums, `uvicorn: command not found`, and fixing the `ModuleNotFoundError` by properly setting the root directory.
 - **Tomorrow:** Upgrading the database from SQLite to PostgreSQL.
+
+## Day 18
+- **Built:** Migrated the database from SQLite to a persistent PostgreSQL database hosted on Railway. 
+- **Learned:** How to provision a cloud database, how to use environment variables (`DATABASE_URL`) to connect the backend to the database securely, and how to handle the `postgres://` vs `postgresql://` URL prefix issue.
+- **Struggled with:** Ensuring the `psycopg2-binary` driver was installed correctly. Proved persistence by restarting the server and verifying data remained intact.
+- **Tomorrow:** Adding User Authentication (JWT) to make the app secure.
