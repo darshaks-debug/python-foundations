@@ -5,3 +5,6 @@ google-generativeai
 python-dotenv
 uvicorn[standard]
 psycopg2-binary
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
