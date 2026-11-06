@@ -112,3 +112,9 @@
 - **Learned:** How to provision a cloud database, how to use environment variables (`DATABASE_URL`) to connect the backend to the database securely, and how to handle the `postgres://` vs `postgresql://` URL prefix issue.
 - **Struggled with:** Ensuring the `psycopg2-binary` driver was installed correctly. Proved persistence by restarting the server and verifying data remained intact.
 - **Tomorrow:** Adding User Authentication (JWT) to make the app secure.
+
+## Day 19
+- **Built:** Implemented JWT (JSON Web Token) authentication. Added User Registration and Login endpoints. Secured all expense endpoints so users can only see, add, and delete their own data. Deployed the secure backend to Railway.
+- **Learned:** How to hash passwords securely using Argon2 (`pwdlib`), how to generate and verify JWTs, and how to use FastAPI's `Depends` to protect specific routes. 
+- **Struggled with:** The `passlib` / `bcrypt` compatibility error (fixed by switching to `pwdlib`) and resetting the Railway database to accommodate the new `owner_id` schema.
+- **Tomorrow:** Updating the Streamlit frontend to handle Login/Signup and pass the JWT token to the backend.
