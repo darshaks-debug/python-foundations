@@ -7,6 +7,20 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from passlib.context import CryptContext
+from jose import JWTError, jwt
+from datetime import datetime, timedelta
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import FastAPI, Depends, HTTPException, status
+
+# --- SECURITY CONFIG ---
+SECRET_KEY = "super_secret_key_change_this_in_production"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+# Password hashing tool
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Load the API Key from the .env file
 load_dotenv()
@@ -29,6 +43,13 @@ else:
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+# --- 1.1 USER DATABASE MODEL ---
+class UserDB(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    
 # --- 2. THE DATABASE MODEL ---
 class ExpenseDB(Base):
     __tablename__ = "expenses"
@@ -36,7 +57,8 @@ class ExpenseDB(Base):
     amount = Column(Float)
     description = Column(String)
     category = Column(String, default="Uncategorized")
-
+    owner_id = Column(Integer, index=True) # <-- ADD THIS LINE
+    
 Base.metadata.create_all(bind=engine)
 
 # --- 3. THE PYDANTIC MODEL ---
@@ -144,3 +166,50 @@ def analyze_expenses(db: Session = Depends(get_db)):
 @app.get("/")
 def read_root():
     return {"message": "Expense Tracker API is live on Vercel!"}
+
+# --- HELPER FUNCTIONS ---
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+# --- AUTH ENDPOINTS ---
+class UserCreate(BaseModel):
+    username: str
+    password: str
+
+@app.post("/register")
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
+    # Check if user exists
+    db_user = db.query(UserDB).filter(UserDB.username == user.username).first()
+    if db_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+    
+    # Create new user
+    hashed_pw = get_password_hash(user.password)
+    new_user = UserDB(username=user.username, hashed_password=hashed_pw)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": "User created successfully"}
+
+@app.post("/token")
+def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = db.query(UserDB).filter(UserDB.username == form_data.username).first()
+    
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
+    access_token = create_access_token(data={"sub": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}
