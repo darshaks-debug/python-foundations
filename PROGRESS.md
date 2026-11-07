@@ -118,3 +118,9 @@
 - **Learned:** How to hash passwords securely using Argon2 (`pwdlib`), how to generate and verify JWTs, and how to use FastAPI's `Depends` to protect specific routes. 
 - **Struggled with:** The `passlib` / `bcrypt` compatibility error (fixed by switching to `pwdlib`) and resetting the Railway database to accommodate the new `owner_id` schema.
 - **Tomorrow:** Updating the Streamlit frontend to handle Login/Signup and pass the JWT token to the backend.
+
+## Day 20
+- **Built:** Login/Register UI in Streamlit with JWT sent in request headers; moved SECRET_KEY out of source code into environment variables on Railway and locally.
+- **Learned:** Why secrets never belong in a repo, how `load_dotenv()` ordering matters, and how fail-fast startup checks surface config problems in deploy logs.
+- **Struggled with:** The app refusing to start locally until SECRET_KEY was in `.env`, which showed the check was working.
+- **Tomorrow:** Alembic database migrations.
