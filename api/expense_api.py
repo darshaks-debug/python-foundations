@@ -1,3 +1,11 @@
+import os
+from dotenv import load_dotenv
+
+# Load .env FIRST, before anything reads an environment variable.
+# On Railway there is no .env file, so this does nothing there and the
+# real environment variables from the Railway dashboard are used instead.
+load_dotenv()
+
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,20 +16,22 @@ from typing import List, Optional
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from pwdlib import PasswordHash
-import os
 import google.generativeai as genai
-from dotenv import load_dotenv
 
 # --- SECURITY CONFIG ---
-SECRET_KEY = "super_secret_key_change_this_in_production"
+# The signing key now comes from the environment, never from the source code.
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    # Fail loudly at startup instead of silently running with no/weak key.
+    raise RuntimeError("SECRET_KEY environment variable is not set")
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 password_hash = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Load the API Key from the .env file
-load_dotenv()
+# Configure Gemini (load_dotenv() has already run above)
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # --- 1. DATABASE SETUP ---
@@ -44,15 +54,15 @@ class UserDB(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
-    
+
 class ExpenseDB(Base):
     __tablename__ = "expenses"
     id = Column(Integer, primary_key=True, index=True)
     amount = Column(Float)
     description = Column(String)
     category = Column(String, default="Uncategorized")
-    owner_id = Column(Integer, index=True) 
-    
+    owner_id = Column(Integer, index=True)
+
 Base.metadata.create_all(bind=engine)
 
 # --- 3. PYDANTIC MODELS ---
@@ -62,7 +72,6 @@ class Expense(BaseModel):
     description: str
     category: Optional[str] = "Uncategorized"
 
-    # Updated for Pydantic V2 to stop the warning
     model_config = ConfigDict(from_attributes=True)
 
 class UserCreate(BaseModel):
@@ -102,7 +111,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-        
+
     user = db.query(UserDB).filter(UserDB.username == username).first()
     if user is None:
         raise credentials_exception
@@ -112,7 +121,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -124,7 +133,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(UserDB).filter(UserDB.username == user.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
-    
+
     hashed_pw = get_password_hash(user.password)
     new_user = UserDB(username=user.username, hashed_password=hashed_pw)
     db.add(new_user)
@@ -135,14 +144,14 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 @app.post("/token")
 def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(UserDB).filter(UserDB.username == form_data.username).first()
-    
+
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-        
+
     access_token = create_access_token(data={"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -155,25 +164,25 @@ def list_expenses(db: Session = Depends(get_db), current_user: UserDB = Depends(
 @app.post("/expenses")
 def add_expense(new_expense: Expense, db: Session = Depends(get_db), current_user: UserDB = Depends(get_current_user)):
     prompt = f"""
-    Categorize this expense into exactly ONE of these categories: 
+    Categorize this expense into exactly ONE of these categories:
     [Food, Transport, Entertainment, Bills, Shopping, Other].
     Only reply with the category name. Do not add punctuation or extra words.
-    
+
     Expense: {new_expense.description}
     """
-    
+
     assigned_category = "Other"
-    
+
     try:
-        model = genai.GenerativeModel('gemini-3.5-flash') 
+        model = genai.GenerativeModel('gemini-3.5-flash')
         response = model.generate_content(prompt)
         if response.text:
-            assigned_category = response.text.strip().capitalize() 
+            assigned_category = response.text.strip().capitalize()
     except Exception as e:
         print(f"AI Error: {e}")
 
     db_expense = ExpenseDB(
-        amount=new_expense.amount, 
+        amount=new_expense.amount,
         description=new_expense.description,
         category=assigned_category,
         owner_id=current_user.id
@@ -181,7 +190,7 @@ def add_expense(new_expense: Expense, db: Session = Depends(get_db), current_use
     db.add(db_expense)
     db.commit()
     db.refresh(db_expense)
-    
+
     return {"message": "Expense added", "expense": db_expense}
 
 @app.get("/expenses/total")
@@ -193,13 +202,13 @@ def get_total(db: Session = Depends(get_db), current_user: UserDB = Depends(get_
 @app.delete("/expenses/{expense_id}")
 def delete_expense(expense_id: int, db: Session = Depends(get_db), current_user: UserDB = Depends(get_current_user)):
     expense = db.query(ExpenseDB).filter(
-        ExpenseDB.id == expense_id, 
+        ExpenseDB.id == expense_id,
         ExpenseDB.owner_id == current_user.id
     ).first()
-    
+
     if expense is None:
         raise HTTPException(status_code=404, detail="Expense not found or you don't have permission")
-    
+
     db.delete(expense)
     db.commit()
     return {"message": f"Expense {expense_id} deleted successfully."}
@@ -207,18 +216,18 @@ def delete_expense(expense_id: int, db: Session = Depends(get_db), current_user:
 @app.get("/expenses/analyze")
 def analyze_expenses(db: Session = Depends(get_db), current_user: UserDB = Depends(get_current_user)):
     expenses = db.query(ExpenseDB).filter(ExpenseDB.owner_id == current_user.id).all()
-    
+
     if not expenses:
         return {"analysis": "You have no expenses to analyze."}
-        
+
     expense_text = "\n".join([f"- {exp.description}: ₹{exp.amount}" for exp in expenses])
     prompt = f"""
     You are a helpful financial advisor. Here is a list of my recent expenses:
     {expense_text}
-    Please provide a short, 3-sentence analysis of my spending. 
+    Please provide a short, 3-sentence analysis of my spending.
     Give me one specific tip on how to save money based on these expenses.
     """
-    
+
     try:
         model = genai.GenerativeModel('gemini-3.5-flash')
         response = model.generate_content(prompt)
