@@ -1,11 +1,5 @@
 import os
 from dotenv import load_dotenv
-
-# Load .env FIRST, before anything reads an environment variable.
-# On Railway there is no .env file, so this does nothing there and the
-# real environment variables from the Railway dashboard are used instead.
-load_dotenv()
-
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,10 +10,10 @@ from typing import List, Optional
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from pwdlib import PasswordHash
-import google.generativeai as genai
+from google import genai
+load_dotenv()
 
-# --- SECURITY CONFIG ---
-# The signing key now comes from the environment, never from the source code.
+
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     # Fail loudly at startup instead of silently running with no/weak key.
@@ -31,8 +25,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 password_hash = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Configure Gemini (load_dotenv() has already run above)
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+# Configure Gemini (load_dotenv() has already loaded the GEMINI_API_KEY from .env)
 
 # --- 1. DATABASE SETUP ---
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:////tmp/expenses.db")
@@ -229,8 +222,11 @@ def analyze_expenses(db: Session = Depends(get_db), current_user: UserDB = Depen
     """
 
     try:
-        model = genai.GenerativeModel('gemini-3.5-flash')
-        response = model.generate_content(prompt)
+        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+        response = client.models.generate_content(
+            model="gemini-3.5-flash",
+            contents=prompt
+        )
         return {"analysis": response.text}
     except Exception as e:
         print(f"BACKEND ERROR: {e}")
