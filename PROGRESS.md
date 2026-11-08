@@ -124,3 +124,9 @@
 - **Learned:** Why secrets never belong in a repo, how `load_dotenv()` ordering matters, and how fail-fast startup checks surface config problems in deploy logs.
 - **Struggled with:** The app refusing to start locally until SECRET_KEY was in `.env`, which showed the check was working.
 - **Tomorrow:** Alembic database migrations.
+
+## Day 21
+- **Built:** Integrated Alembic for database migrations. Removed `create_all()` so Alembic owns the schema. Generated an initial migration capturing the `users` and `expenses` tables, applied it locally and to Railway via the start command.
+- **Learned:** Why teams never delete production databases to change schema. How Alembic autogenerates migrations by diffing models against the DB. How to read the generated migration file before applying it.
+- **Struggled with:** Configuring `env.py` to import models correctly from `expense_api.py`, ensuring `alembic.ini` lives inside `api/`, and fixing the `ModuleNotFoundError: No module named 'psycopg'` by adding `psycopg[binary]` to the requirements.
+- **Tomorrow:** Pytest — writing tests for the auth and expense endpoints.
