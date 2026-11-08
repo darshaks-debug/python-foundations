@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 # Load .env (walks up from api/ to find ../.env)
 load_dotenv()
-from api.expense_api import Base
+from expense_api import Base
 # Import Base and models so autogenerate can "see" them
 # Importing expense_api registers UserDB and ExpenseDB on Base.metadata
 
