@@ -130,3 +130,9 @@
 - **Learned:** Why teams never delete production databases to change schema. How Alembic autogenerates migrations by diffing models against the DB. How to read the generated migration file before applying it.
 - **Struggled with:** Configuring `env.py` to import models correctly from `expense_api.py`, ensuring `alembic.ini` lives inside `api/`, and fixing the `ModuleNotFoundError: No module named 'psycopg'` by adding `psycopg[binary]` to the requirements.
 - **Tomorrow:** Pytest — writing tests for the auth and expense endpoints.
+
+## Day 22
+- **Built:** Wrote automated tests for the FastAPI backend using Pytest. Created fixtures to override the database session with an in-memory SQLite DB for fast, isolated testing. Wrote tests for registration, login, unauthorized access, and cross-user data isolation.
+- **Learned:** How to use `TestClient` from FastAPI, how to mock dependencies (`app.dependency_overrides`), and how to structure a testing suite.
+- **Struggled with:** Fixing the `ModuleNotFoundError` by using `python3 -m pytest` and adjusting the `sys.path` in `conftest.py`. Also fixed the `datetime.utcnow()` deprecation warning.
+- **Tomorrow:** Setting up GitHub Actions for CI/CD.
