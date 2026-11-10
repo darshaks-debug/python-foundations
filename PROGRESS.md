@@ -136,3 +136,9 @@
 - **Learned:** How to use `TestClient` from FastAPI, how to mock dependencies (`app.dependency_overrides`), and how to structure a testing suite.
 - **Struggled with:** Fixing the `ModuleNotFoundError` by using `python3 -m pytest` and adjusting the `sys.path` in `conftest.py`. Also fixed the `datetime.utcnow()` deprecation warning.
 - **Tomorrow:** Setting up GitHub Actions for CI/CD.
+
+## Day 23
+- **Built:** Set up a CI/CD pipeline using GitHub Actions. The workflow automatically runs the Pytest suite on every push to the main branch.
+- **Learned:** How to write a YAML workflow file, how to set up GitHub Actions to use Python 3.12, and how to inject dummy environment variables into a CI environment.
+- **Struggled with:** Ensuring the `.github` folder was at the repository root, not inside the `api/` folder, so GitHub could detect it.
+- **Tomorrow:** Researching 20 job descriptions and polishing the resume.
