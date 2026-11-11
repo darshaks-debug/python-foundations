@@ -142,3 +142,9 @@
 - **Learned:** How to write a YAML workflow file, how to set up GitHub Actions to use Python 3.12, and how to inject dummy environment variables into a CI environment.
 - **Struggled with:** Ensuring the `.github` folder was at the repository root, not inside the `api/` folder, so GitHub could detect it.
 - **Tomorrow:** Researching 20 job descriptions and polishing the resume.
+
+## Day 24
+- **Built:** Translated technical projects into impact-driven resume bullet points. Updated LinkedIn profile to reflect Python Backend and AI Engineering skills.
+- **Learned:** Analyzed 20 real job descriptions to map market demand for specific skills (FastAPI, Postgres, Docker). Practiced SQL Joins.
+- **Struggled with:** Trimming down the resume to focus on metrics and outcomes rather than just listing tools.
+- **Tomorrow:** Making the RAG app production-ready with per-user document isolation.
