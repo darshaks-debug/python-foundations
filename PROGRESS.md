@@ -148,3 +148,9 @@
 - **Learned:** Analyzed 20 real job descriptions to map market demand for specific skills (FastAPI, Postgres, Docker). Practiced SQL Joins.
 - **Struggled with:** Trimming down the resume to focus on metrics and outcomes rather than just listing tools and trials.
 - **Tomorrow:** Making the RAG app production-ready with per-user document isolation.
+
+## Day 25
+- **Built:** Implemented per-user document isolation in the RAG app. Each Streamlit session now gets a unique `session_id` which is used to create a separate ChromaDB collection and folder, preventing cross-user data leakage.
+- **Learned:** How to use `uuid` for session tracking. Fixed a bug where the class attribute was named `ai_client` but called as `gemini_client`. 
+- **Struggled with:** The Streamlit app caching the old `rag_pipeline.py`. Fixed by restarting the local server and re-uploading the PDF.
+- **Tomorrow:** Introduction to AI Agents.
