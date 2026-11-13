@@ -31,8 +31,11 @@ with st.sidebar:
             
         with st.spinner("Processing PDF and building knowledge base..."):
             try:
-                # Initialize the assistant
-                st.session_state.assistant = PDFRAGAssistant()
+                # Initialize the assistant and pass the unique session ID to isolate the database
+                st.session_state.assistant = PDFRAGAssistant(
+                    db_path=f"./chroma_db_{st.session_state.session_id}",
+                    collection_name=f"pdf_collection_{st.session_state.session_id}"
+                )
                 
                 # Clear previous database chunks for a fresh start
                 #Properly reset the collection for a fresh start

@@ -1,220 +1,154 @@
 import os
-import sys
-import uuid
 import time
-from pathlib import Path
-from typing import List, Dict, Any
 import chromadb
 from sentence_transformers import SentenceTransformer
 from pypdf import PdfReader
 from google import genai
-from google.genai import types
 from dotenv import load_dotenv
+from pathlib import Path
 
+# Load environment variables (GEMINI_API_KEY)
 load_dotenv()
 
-
-def split_text_with_overlap(
-    text: str, chunk_size: int = 500, chunk_overlap: int = 100
-) -> List[str]:
-    """Splits text into overlapping chunks without cutting words in half."""
-    if chunk_overlap >= chunk_size:
-        raise ValueError("chunk_overlap must be smaller than chunk_size")
-
-    chunks = []
-    start = 0
-    text_length = len(text)
-
-    while start < text_length:
-        end = min(start + chunk_size, text_length)
-
-        # If we aren't at the end of the text, backtrack to the nearest space
-        if end < text_length:
-            last_space = text.rfind(" ", start, end)
-            if last_space > start:
-                end = last_space
-
-        chunk = text[start:end].strip()
-        if chunk:
-            chunks.append(chunk)
-
-        if end >= text_length:
-            break
-
-        # Move start forward, stepping back by chunk_overlap
-        start = max(end - chunk_overlap, start + 1)
-
-    return chunks
-
-
 class PDFRAGAssistant:
-    def __init__(
-        self,
-        db_path: str = "./chroma_db",
-        collection_name: str = "pdf_collection",
-        embedding_model_name: str = "all-MiniLM-L6-v2",
-        gemini_model_name: str = "gemini-3.5-flash",
-    ):
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY not found in .env file.")
-
-        print("⏳ Loading local embedding model & ChromaDB...")
-        self.embedding_model = SentenceTransformer(embedding_model_name)
+    def __init__(self, db_path="./chroma_db", collection_name="pdf_collection"):
+        # 1. Setup Embedding Model
+        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+        
+        # 2. Setup ChromaDB
         self.chroma_client = chromadb.PersistentClient(path=db_path)
-        self.collection = self.chroma_client.get_or_create_collection(
-            name=collection_name
-        )
+        self.collection = self.chroma_client.get_or_create_collection(name=collection_name)
+        
+        # 3. Setup Gemini Client (This fixes the missing attribute error)
+        self.ai_client = genai.Client()
 
-        # Initialize the modern Google GenAI client once
-        self.ai_client = genai.Client(api_key=api_key)
-        self.gemini_model_name = gemini_model_name
+    def split_text_with_overlap(self, text, chunk_size=500, chunk_overlap=100):
+        """Splits text into chunks of a certain size with overlapping context."""
+        chunks = []
+        start = 0
+        while start < len(text):
+            end = start + chunk_size
+            chunk = text[start:end]
+            chunks.append(chunk)
+            start += chunk_size - chunk_overlap
+        return chunks
 
-    def index_pdf(
-        self, pdf_path: str, chunk_size: int = 500, chunk_overlap: int = 100
-    ) -> int:
-        """Extracts text page-by-page, chunks with overlap, and stores with metadata in batches."""
-        path = Path(pdf_path)
-        if not path.is_file():
-            raise FileNotFoundError(f"PDF file not found: {pdf_path}")
-
-        print(f"📄 Reading '{path.name}'...")
-        reader = PdfReader(str(path))
-
-        chunks: List[str] = []
-        metadatas: List[Dict[str, Any]] = []
-        ids: List[str] = []
-
+    def index_pdf(self, pdf_path, chunk_size=500, chunk_overlap=100):
+        """Extracts text from a PDF, chunks it, and stores embeddings in ChromaDB."""
+        print(f"📄 Reading PDF: {pdf_path}")
+        reader = PdfReader(pdf_path)
+        
+        all_chunks = []
+        all_metadata = []
+        all_ids = []
+        
+        chunk_counter = 0
+        
+        # Extract text page by page to keep track of page numbers for citations
         for page_num, page in enumerate(reader.pages, start=1):
-            page_text = page.extract_text()
-            if not page_text or not page_text.strip():
+            text = page.extract_text()
+            if not text:
                 continue
+                
+            chunks = self.split_text_with_overlap(text, chunk_size, chunk_overlap)
+            
+            for chunk in chunks:
+                all_chunks.append(chunk)
+                all_metadata.append({"source": Path(pdf_path).name, "page": page_num})
+                all_ids.append(f"chunk_{chunk_counter}")
+                chunk_counter += 1
+                
+        if not all_chunks:
+            raise ValueError("No text could be extracted from the PDF.")
 
-            page_chunks = split_text_with_overlap(
-                page_text, chunk_size=chunk_size, chunk_overlap=chunk_overlap
-            )
-            for chunk_idx, chunk in enumerate(page_chunks):
-                chunks.append(chunk)
-                metadatas.append({"source": path.name, "page": page_num})
-                ids.append(f"{path.stem}_p{page_num}_c{chunk_idx}")
-
-        if not chunks:
-            raise ValueError(
-                f"No extractable text found in '{path.name}'. It may be a scanned image PDF."
-            )
-
-        print(f"🧠 Embedding {len(chunks)} chunks and saving to persistent database...")
-        embeddings = self.embedding_model.encode(
-            chunks, show_progress_bar=True
-        ).tolist()
-
-        # ChromaDB SQLite limit: max 5,461 items per single insert batch
-        batch_size = 5000
-        for i in range(0, len(chunks), batch_size):
-            end_idx = min(i + batch_size, len(chunks))
-            print(f"   💾 Saving chunks {i + 1} to {end_idx}...")
+        print(f"🧠 Embedding {len(all_chunks)} chunks in batches...")
+        
+        # Batch processing to prevent memory crashes
+        batch_size = 500
+        for i in range(0, len(all_chunks), batch_size):
+            batch_texts = all_chunks[i:i+batch_size]
+            batch_ids = all_ids[i:i+batch_size]
+            batch_meta = all_metadata[i:i+batch_size]
+            
+            batch_embeddings = self.embedding_model.encode(batch_texts).tolist()
+            
             self.collection.upsert(
-                ids=ids[i:end_idx],
-                embeddings=embeddings[i:end_idx],
-                documents=chunks[i:end_idx],
-                metadatas=metadatas[i:end_idx],
+                embeddings=batch_embeddings,
+                documents=batch_texts,
+                metadatas=batch_meta,
+                ids=batch_ids
             )
+            
+        return len(all_chunks)
 
-        print("✅ Database ready!\n")
-        return len(chunks)
-
-    def ask(self, question: str, n_results: int = 3) -> str:
-        """Retrieves relevant chunks with page numbers and queries Gemini with automatic retry."""
+    def ask(self, question, n_results=3):
+        """Retrieves relevant chunks and asks Gemini to answer the question."""
+        print(f"🔍 Searching for: '{question}'")
+        
+        # 1. Embed the question
         question_embedding = self.embedding_model.encode([question]).tolist()
-
+        
+        # 2. Query ChromaDB
         results = self.collection.query(
             query_embeddings=question_embedding,
-            n_results=n_results,
+            n_results=n_results
         )
-
-        documents = results.get("documents", [[]])[0]
-        metadatas = results.get("metadatas", [[]])[0]
-
-        if not documents:
-            return "No documents are indexed in the database yet."
-
+        
+        # 3. Build Context with Citations
         context_blocks = []
-        for doc, meta in zip(documents, metadatas):
-            page = meta.get("page", "?")
-            source = meta.get("source", "Document")
-            context_blocks.append(f"[{source} - Page {page}]\n{doc}")
+        if results['documents'] and results['documents'][0]:
+            for i, doc in enumerate(results['documents'][0]):
+                meta = results['metadatas'][0][i]
+                page = meta.get('page', 'Unknown')
+                source = meta.get('source', 'Unknown')
+                context_blocks.append(f"[{source} - Page {page}]\n{doc}")
+                
+        context = "\n\n".join(context_blocks)
+        
+        if not context:
+            return "I couldn't find any relevant information in the document."
 
-        context = "\n\n---\n\n".join(context_blocks)
+        # 4. Generate Prompt
+        prompt = f"""
+        You are a helpful document assistant. Answer the user's question using ONLY the context provided below. 
+        If the answer is not in the context, say "I don't know based on the provided document."
+        Always cite the page number(s) you used.
 
-        system_instruction = (
-            "You are a helpful document assistant. Answer the user's question using ONLY "
-            "the context provided. Cite the page number(s) in your answer (e.g., [Page 2]). "
-            "If the answer is not in the context, say 'I don't know based on the provided document.'"
-        )
+        CONTEXT:
+        {context}
 
-        prompt = f"CONTEXT:\n{context}\n\nQUESTION: {question}"
-
-        # Retry logic for temporary server congestion (503 / 429)
+        QUESTION: {question}
+        """
+        
+        print("🤖 Asking Gemini...")
+        
+        # 5. Generate Response with Retry Logic (Exponential Backoff)
         max_retries = 4
-        for attempt in range(1, max_retries + 1):
+        for attempt in range(max_retries):
             try:
+                # Using the new google-genai SDK
                 response = self.ai_client.models.generate_content(
-                    model=self.gemini_model_name,
+                    model="gemini-3.5-flash", # or gemini-1.5-flash depending on your API access
                     contents=prompt,
-                    config=types.GenerateContentConfig(
-                        system_instruction=system_instruction,
-                        temperature=0.2,
-                    ),
                 )
-                return response.text or "No response generated."
+                return response.text
             except Exception as e:
                 error_msg = str(e)
-                if ("503" in error_msg or "429" in error_msg) and attempt < max_retries:
-                    wait_time = attempt * 3
-                    print(
-                        f"   ⏳ Server busy (503/429). Retrying in {wait_time}s (Attempt {attempt}/{max_retries})..."
-                    )
+                # Catch 503 (Overloaded) or 429 (Rate Limit) errors
+                if '503' in error_msg or '429' in error_msg:
+                    if attempt == max_retries - 1:
+                        return f"❌ Failed after {max_retries} attempts. The AI server is busy. Error: {error_msg}"
+                    wait_time = 2 ** (attempt + 1)
+                    print(f"⚠️ Server busy. Retrying in {wait_time}s...")
                     time.sleep(wait_time)
                 else:
-                    raise
+                    return f"❌ AI Error: {error_msg}"
+                    
+        return "An unknown error occurred."
 
 
-def main():
-    pdf_file = "document.pdf"
-    #Check if user typed "python rag_pipeline.py --reset" to reset the database
-    reset_db = "--reset" in sys.argv
-
-    try:
-        db_path = f"./chroma_db_{str(uuid.uuid4())[:8]}" if reset_db else "./chroma_db"
-        assistant = PDFRAGAssistant(db_path=db_path)
-
-        if reset_db or assistant.collection.count() == 0:
-            print("⚡ Resetting / Indexing the PDF...")
-            assistant.index_pdf(pdf_file)
-        else:
-            print(f"⚡ Loaded {assistant.collection.count()} existing chunks from disk.\n")
-            print("TIP: To reset the database and re-index the PDF, run: python rag_pipeline.py --reset\n")
-
-        while True:
-            question = input("Ask a question about the PDF (or type 'quit'): ").strip()
-            if question.lower() == "quit":
-                break
-            if not question:
-                continue
-
-            print("🔍 Searching context & asking Gemini...")
-            try:
-                answer = assistant.ask(question, n_results=3)
-                print(f"\n💡 Answer:\n{answer}\n")
-                print("-" * 50)
-            except Exception as e:
-                print(
-                    f"\n⚠️ API Error: {e}\nPlease try your question again in a moment.\n"
-                )
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-
+# For local CLI testing (optional)
 if __name__ == "__main__":
-    main()
+    assistant = PDFRAGAssistant()
+    # assistant.index_pdf("document.pdf")
+    # print(assistant.ask("What is this document about?"))
