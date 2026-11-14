@@ -146,7 +146,7 @@
 ## Day 24
 - **Built:** Translated technical projects into impact-driven resume bullet points. Updated LinkedIn profile to reflect Python Backend and AI Engineering skills.
 - **Learned:** Analyzed 20 real job descriptions to map market demand for specific skills (FastAPI, Postgres, Docker). Practiced SQL Joins.
-- **Struggled with:** Trimming down the resume to focus on metrics and outcomes rather than just listing tools and trials.
+- **Struggled with:** Trimming down the resume to focus on metrics and outcomes rather than just listing tools.
 - **Tomorrow:** Making the RAG app production-ready with per-user document isolation.
 
 ## Day 25
