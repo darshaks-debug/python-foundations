@@ -153,4 +153,10 @@
 - **Built:** Implemented per-user document isolation in the RAG app. Each Streamlit session now gets a unique `session_id` which is used to create a separate ChromaDB collection and folder, preventing cross-user data leakage.
 - **Learned:** How to use `uuid` for session tracking. Fixed a bug where the class attribute was named `ai_client` but called as `gemini_client`. 
 - **Struggled with:** The Streamlit app caching the old `rag_pipeline.py`. Fixed by restarting the local server and re-uploading the PDF.
-- **Tomorrow:** Introduction to AI Agents.
+- **Tomorrow:** Introduction to Next.js.
+
+## Day 26
+- **Built:** Initialized a modern Next.js frontend using React, TypeScript, and Tailwind CSS. Created the first interactive component with hardcoded data to test state management and looping.
+- **Learned:** The difference between React components and traditional HTML. How to use `useState` for local state, TypeScript types for data validation, and Tailwind utility classes for styling.
+- **Struggled with:** Initializing the Next.js app due to a leftover folder, and fixing a low-contrast text issue in dark mode.
+- **Tomorrow:** Connecting the React frontend to the live Railway backend (Fetching real data!).
