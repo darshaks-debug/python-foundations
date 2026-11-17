@@ -160,3 +160,9 @@
 - **Learned:** The difference between React components and traditional HTML. How to use `useState` for local state, TypeScript types for data validation, and Tailwind utility classes for styling.
 - **Struggled with:** Initializing the Next.js app due to a leftover folder, and fixing a low-contrast text issue in dark mode.
 - **Tomorrow:** Connecting the React frontend to the live Railway backend (Fetching real data!).
+
+## Day 27
+- **Built:** Connected Next.js frontend to Railway FastAPI backend. Built a secure Login UI with JWT token persistence via `localStorage`.
+- **Learned:** How to handle form data in React to match FastAPI's OAuth2 requirements. Deep-dived into Alembic troubleshooting—discovered that empty migration files and disconnected `DATABASE_URL` variables cause DB schema failures. Learned that Next.js only reads `.env.local` from the root directory.
+- **Struggled with:** A persistent 500 error caused by an empty Alembic migration and a broken database link on Railway. Fixed by regenerating the migration, resetting the DB, and manually linking `${{Postgres.DATABASE_URL}}`.
+- **Tomorrow:** Building the "Add Expense" and "Delete Expense" functionality in React.
