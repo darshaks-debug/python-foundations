@@ -30,7 +30,7 @@ retry/backoff, per-user isolation. 4 Streamlit apps + portfolio.
 | Agents slot | 45 min | Fixed time, hard stop (see AGENTS.md) |
 | Ship | 15 min | Commit + push + 3-line PROGRESS.md |
 
-Bad day? **Cut build scope, never the job-search hour.**
+Bad day? **Cut build scope, never the job-search hours.**
 
 ---
 
