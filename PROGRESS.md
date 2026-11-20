@@ -166,3 +166,15 @@
 - **Learned:** How to handle form data in React to match FastAPI's OAuth2 requirements. Deep-dived into Alembic troubleshooting—discovered that empty migration files and disconnected `DATABASE_URL` variables cause DB schema failures. Learned that Next.js only reads `.env.local` from the root directory.
 - **Struggled with:** A persistent 500 error caused by an empty Alembic migration and a broken database link on Railway. Fixed by regenerating the migration, resetting the DB, and manually linking `${{Postgres.DATABASE_URL}}`.
 - **Tomorrow:** Building the "Add Expense" and "Delete Expense" functionality in React.
+
+## Day 28
+- **Built:** Completed the CRUD loop in React. Built an "Add Expense" form that sends POST requests to the FastAPI backend and automatically displays the AI-generated category. Added a "Delete" button that sends DELETE requests.
+- **Learned:** How to handle controlled inputs in React. Learned the difference between re-fetching data (to get the AI category) and optimistic UI updates (removing items from local state instantly on delete).
+- **Struggled with:** Running `npm run dev` from the wrong directory. Fixed by moving into the `expense-frontend` folder.
+- **Tomorrow:** Deploying the React frontend to Vercel.
+
+## Day 29
+- **Built:** Deployed the Next.js React frontend to Vercel. Configured the Root Directory to handle the monorepo structure and injected the Railway backend URL via Vercel Environment Variables. Updated portfolio and README to reflect the new React stack.
+- **Learned:** How to deploy a subfolder (monorepo) to Vercel. The importance of `NEXT_PUBLIC_` environment variables for frontend builds. Solidified understanding of decoupled architecture (Vercel frontend + Railway backend).
+- **Struggled with:** Configuring the Vercel Root Directory so it didn't try to build the Python backend.
+- **Tomorrow:** Building the AI Agent.

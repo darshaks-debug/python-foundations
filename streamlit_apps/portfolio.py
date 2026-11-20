@@ -79,10 +79,10 @@ st.markdown("""
 <div class="project-card">
     <h3>💰 AI Expense Tracker</h3>
     <p>A full-stack CRUD application. The backend is a FastAPI REST API deployed on Vercel. The frontend allows users to track expenses, which are automatically categorized by AI (e.g., "McDonalds" -> "Food").</p>
-    <p><b>Stack:</b> FastAPI, SQLAlchemy, Streamlit, Docker, Vercel</p>
+    <p><b>Stack:</b> FastAPI, SQLAlchemy, React/Next.js, Docker, Vercel</p>
 </div>
 """, unsafe_allow_html=True)
-st.link_button("🔴 Live Demo", "https://darshak-expense-tracker.streamlit.app")
+st.link_button("🔴 Live Demo", "https://python-foundations-nine.vercel.app")
 st.link_button("💻 Source Code", "https://github.com/darshaks-debug/python-foundations/blob/main/streamlit_apps/expense_frontend.py")
 
 st.write("---")

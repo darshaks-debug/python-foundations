@@ -6,11 +6,11 @@ This repository contains the source code for my deployed applications, including
 
 ## 🌐 Live Projects
 
-### 1. 💰 AI Expense Tracker
-A full-stack application that tracks expenses and uses Gemini AI to automatically categorize them.
-*   **Live Demo:** [Streamlit App](https://darshak-expense-tracker.streamlit.app)
+### 1. 💰 AI Expense Tracker (Full-Stack)
+A production-grade full-stack application that tracks expenses and uses Gemini AI to automatically categorize them.
+*   **Live Demo (React Frontend):** [https://python-foundations-nine.vercel.app](https://python-foundations-nine.vercel.app)
 *   **Backend API:** [FastAPI Docs](https://python-foundations-production.up.railway.app/docs)
-*   **Tech Stack:** FastAPI, SQLAlchemy, SQLite, Streamlit, Google Gemini, Railway.
+*   **Tech Stack:** Next.js, React, TypeScript, Tailwind CSS, FastAPI, PostgreSQL, SQLAlchemy, Alembic, Docker, Google Gemini, Railway, Vercel.
 
 ### 2. 📄 Chat with your PDF (RAG)
 A Retrieval-Augmented Generation (RAG) application. Upload any PDF and chat with it. The app uses custom chunking, overlapping text, and vector embeddings to answer questions with page citations.
