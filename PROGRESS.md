@@ -182,5 +182,5 @@
 ## Day 30
 - **Built:** Created a fully autonomous AI Agent using the OpenAI SDK pointed at Groq (`openai/gpt-oss-120b`). Gave it two tools: a Tavily web search and a Python calculator.
 - **Learned:** How to implement the ReAct (Reasoning and Acting) loop manually. Discovered that a `while True:` loop is required to allow the agent to chain multiple tool calls together (e.g., search first, then calculate).
-- **Struggled with:** Deprecated models on Groq, deprecated search packages (`duckduckgo-search`), and missing the `while` loop which caused the agent to return `None` after the first tool call.
+- **Struggled with:** Deprecated models on Groq, deprecated search packages (`duckduckgo-search`, 'ddgs'), and missing the `while` loop which caused the agent to return `None` after the first tool call.
 - **Tomorrow:** Django Primer and System Design.
