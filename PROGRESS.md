@@ -18,7 +18,7 @@
 - **Built:** 10 practice problems (Lists, Sets, Dicts) and a JSON-backed Expense Tracker CLI.
 - **Learned:** How to use dictionaries effectively, how to do `json.load()` and `json.dump()`, and how to use `continue` to skip bad inputs.
 - **Struggled with:** Indentation in VS Code when pasting code. (Lesson learned: type it out or use Format Document!).
-- **Tomorrow:** FastAPI — building my first web API!
+- **Tomorrow:** FastAPI — building my first web API with FastAPI!
 
 ## Day 4
 - **Built:** A fully functional REST API using FastAPI. Includes GET, POST, and dynamic total calculation.
