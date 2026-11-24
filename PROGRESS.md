@@ -90,7 +90,7 @@
 - **Built:** Created a `Dockerfile` to containerize the FastAPI backend.
 - **Learned:** How to write a Dockerfile, build an image (`docker build`), and run a container (`docker run`). Also learned how to use Colima as a free Docker Desktop alternative on Mac.
 - **Struggled with:** Fixing the `requirements-vercel.txt` path and ensuring Colima was running properly.
-- **Tomorrow:** Building the Portfolio Website to showcase these live links.
+- **Tomorrow:** Building the Portfolio Website to showcase these live links and projects.
 
 ## Day 16
 - **Built:** A live, professional portfolio website using Streamlit and custom CSS.
