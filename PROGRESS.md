@@ -165,7 +165,7 @@
 - **Built:** Connected Next.js Frontend to Railway FastAPI backend. Built a secure Login UI with JWT token persistence via `localStorage`.
 - **Learned:** How to handle form data in React to match FastAPI's OAuth2 requirements. Deep-dived into Alembic troubleshooting—discovered that empty migration files and disconnected `DATABASE_URL` variables cause DB schema failures. Learned that Next.js only reads `.env.local` from the root directory.
 - **Struggled with:** A persistent 500 error caused by an empty Alembic migration and a broken database link on Railway. Fixed by regenerating the migration, resetting the DB, and manually linking `${{Postgres.DATABASE_URL}}`.
-- **Tomorrow:** Building the "Add Expense" and "Delete Expense" functionality in React.
+- **Tomorrow:** Building the "Add Expense" and "Delete Expense" functionality in React.js.
 
 ## Day 28
 - **Built:** Completed the CRUD loop in React. Built an "Add Expense" form that sends POST requests to the FastAPI backend and automatically displays the AI-generated category. Added a "Delete" button that sends DELETE requests.
