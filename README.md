@@ -39,7 +39,7 @@ A tool that compares a resume against a job description, providing a match score
 
 ---
 
-### 📓 My Learning Journey
+### 📓 My Learning Journey:
 Want to see how this was built from scratch? 
 Check out my **[Daily Progress Log](PROGRESS.md)** to read about the bugs I fixed, the concepts I learned, and my 60-day roadmap.
 
